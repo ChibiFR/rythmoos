@@ -1,3 +1,7 @@
+/**
+ * Contain information about time in the rendering process.
+ * @abstract
+ */
 class Time {
   /**
    * Init the Time class.

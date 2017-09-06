@@ -1,60 +1,33 @@
-import Renderer from './Renderer';
+import Game from './Game';
 import Time from './Time';
+import Mouse from './Mouse';
 
+const g = new Game();
 
-// Set body style
-document.body.style.background = '#000000';
-document.body.style.cursor = 'none';
-
-
-// Create canvas + style and Renderer
-const c = document.createElement('canvas');
-const r = new Renderer(c);
-
-c.width = window.innerWidth;
-c.height = window.innerHeight;
-
-
-// Track cursor
-const mouse = {
-  x: null,
-  y: null
-};
-
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
+// Draw black background
+g.renderer.attachDraw((ctx) => {
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, g.canvas.width, g.canvas.height);
 });
 
-// Track fps
-let fps = 0;
-
-
-// Attach draw and updates
-
-// Update fps
-r.attachUpdate(() => {
-  fps = Math.round(1000 / Time.deltaTime);
-});
-
-// Draw fps counter
-r.attachDraw((ctx) => {
+// Draw a fps counter accurate to the microsecond.
+g.renderer.attachDraw((ctx) => {
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '20px Arial';
-  ctx.fillText(`FPS: ${fps}`, 15, 15);
+  ctx.fillText(`FPS: ${Math.round(1000 / Time._deltaTime)}`, 20, 20);
 });
 
-// Draw cursor
-r.attachDraw((ctx) => {
-  if (mouse.x !== null) {
+// Draw the cursor as a small circle. Change color as a mouse button is pressed.
+g.renderer.attachDraw((ctx) => {
+  if (Mouse.isClicked()) {
+    ctx.fillStyle = '#0000FF';
+  } else {
     ctx.fillStyle = '#FF0000';
-    ctx.beginPath();
-    ctx.arc(mouse.x, mouse.y, 10, 0, 2 * Math.PI);
-    ctx.fill();
   }
+
+  ctx.beginPath();
+  ctx.arc(Mouse.cursorX, Mouse.cursorY, 10, 0, 2 * Math.PI);
+  ctx.fill();
 });
 
-
-// Start main loop
-document.body.appendChild(c);
-r.start();
+g.start();
