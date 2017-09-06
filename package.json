@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
+<<<<<<< HEAD
     "watch": "webpack --watch",
     "serve": "webpack-dev-server",
+=======
+    "debug": "webpack-dev-server",
+>>>>>>> 71e6c2487c710ef62cc269e6adfa9aceb8d35d3a
     "build": "webpack",
     "start": "webpack && node index.js"
   },
