@@ -6,5 +6,8 @@ module.exports = {
     path: path.join(__dirname, 'public'),
     filename: 'rythmoos.js'
   },
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: path.join(__dirname)
+  }
 };
