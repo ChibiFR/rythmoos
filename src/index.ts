@@ -1,7 +1,4 @@
-import Game from './Game';
-import Mouse from './Mouse';
-import Screen from './Screen';
-import Time from './Time';
+import { Game, Mouse, Screen, Time } from './engine';
 
 const g = new Game();
 
