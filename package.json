@@ -4,7 +4,8 @@
   "description": "A rythm based game for the funz.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test:build": "tsc --outDir test/lib",
+    "test": "npm run test:build && mocha",
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server",
