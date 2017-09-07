@@ -29,20 +29,32 @@ export default abstract class Mouse {
     return this.cursor.y;
   }
 
-  public static get clicked(): boolean {
-    return (this.leftClicked || this.middleClicked || this.rightClicked);
+  public static get buttonDown(): boolean {
+    return (this.leftButtonDown || this.middleButtonDown || this.rightButtonDown);
   }
 
-  public static get leftClicked(): boolean {
+  public static get leftButtonDown(): boolean {
     return this._leftClick.isDown();
   }
 
-  public static get middleClicked(): boolean {
+  public static get middleButtonDown(): boolean {
     return this._middleClick.isDown();
   }
 
-  public static get rightClicked(): boolean {
+  public static get rightButtonDown(): boolean {
     return this._rightClick.isDown();
+  }
+
+  public static get leftButtonUp(): boolean {
+    return this._leftClick.isUp();
+  }
+
+  public static get middleButtonUp(): boolean {
+    return this._middleClick.isUp();
+  }
+
+  public static get rightButtonUp(): boolean {
+    return this._rightClick.isUp();
   }
 
   private static initEvents(): void {

@@ -14,7 +14,7 @@ g.renderer.attachUpdate(() => {
 });
 
 g.renderer.attachUpdate(() => {
-  g.renderer.context.fillStyle = Mouse.clicked ? '#0000FF' : '#FF0000';
+  g.renderer.context.fillStyle = Mouse.buttonDown ? '#0000FF' : '#FF0000';
   g.renderer.context.beginPath();
   g.renderer.context.arc(Mouse.cursorX, Mouse.cursorY, 10, 0, 2 * Math.PI);
   g.renderer.context.fill();
