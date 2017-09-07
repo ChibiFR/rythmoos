@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha",
     "build": "webpack",
+    "watch": "webpack --watch",
     "serve": "webpack-dev-server",
     "start": "node index.js"
   },
