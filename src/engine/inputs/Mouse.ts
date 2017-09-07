@@ -1,5 +1,5 @@
-import Screen from './Screen';
-import Point from './Point';
+import { Screen } from '../rendering';
+import { Point } from '../graphics';
 import InputState from './InputState';
 
 export default abstract class Mouse {

@@ -1,6 +1,5 @@
 const { expect } = require('chai');
-const GameObject = require('./lib/engine/GameObject').default;
-const Point = require('./lib/engine/Point').default;
+const { GameObject, Point } = require('./lib/engine');
 
 describe('GameObject', () => {
   describe('GameObject#constructor', () => {

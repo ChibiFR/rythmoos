@@ -1,5 +1,5 @@
-import GameObject from './GameObject';
-import Collection from './Collection';
+import { GameObject } from '../game-objects';
+import { Collection } from '../utils';
 
 export default class Scene {
   private _gameObjects: Collection<GameObject>;

@@ -1,4 +1,4 @@
-import Point from './Point';
+import { Point } from '../graphics';
 
 export default class GameObject {
   public readonly name: string;

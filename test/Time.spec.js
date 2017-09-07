@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const Time = require('./lib/engine/Time').default;
+const { Time } = require('./lib/engine');
 
 describe('Time', () => {
   describe('Time#_setFrame', () => {

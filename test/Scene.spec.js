@@ -1,7 +1,5 @@
 const { expect } = require('chai');
-const Scene = require('./lib/engine/Scene').default;
-const GameObject = require('./lib/engine/GameObject').default;
-const Point = require('./lib/engine/Point').default;
+const { Scene, GameObject, Point } = require('./lib/engine');
 
 const scene = new Scene();
 const go = new GameObject('a name');
