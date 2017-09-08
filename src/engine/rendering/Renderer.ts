@@ -4,8 +4,8 @@ import { GameObject } from '../game-objects';
 
 export default class Renderer {
   public context: CanvasRenderingContext2D;
-  public animationFrame: number;
   public scene: Scene;
+  private animationFrame: number;
   private _updates: Function[];
 
   constructor(context: CanvasRenderingContext2D) {

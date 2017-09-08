@@ -1,9 +1,11 @@
 import { Point } from '../graphics';
+import GameObjectTypes from './GameObjectTypes';
 
 export default class GameObject {
   public readonly name: string;
   public visible: boolean;
-  private _point: Point;
+  protected _type: GameObjectTypes;
+  protected _point: Point;
 
   constructor(name: string, point?: Point, visible?: boolean) {
     this.name = name;
@@ -14,10 +16,16 @@ export default class GameObject {
     } else {
       this.visible = visible;
     }
+
+    this._type = GameObjectTypes.OTHER;
+  }
+
+  public get type(): GameObjectTypes {
+    return this._type;
   }
 
   public get point(): Point {
-    return this._point;
+    return new Point(this._point.x, this._point.y);
   }
 
   public get x(): number {
@@ -25,7 +33,7 @@ export default class GameObject {
   }
   
   public set x(x: number) {
-    this.point.x = 4;
+    this._point.x = 4;
   }
 
   public get y(): number {
@@ -33,7 +41,7 @@ export default class GameObject {
   }
 
   public set y(y: number) {
-    this.point.y = y;
+    this._point.y = y;
   }
 
   public setPoint(point: Point): void {
