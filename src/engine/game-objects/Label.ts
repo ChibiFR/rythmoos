@@ -21,7 +21,7 @@ export default class Label extends GameObject {
     this.font.fontSize = fontSize;
   }
 
-  public setColor(color: string): void {
+  public setFontColor(color: string): void {
     this.font.color = color;
   }
 }

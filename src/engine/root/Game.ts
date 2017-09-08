@@ -16,6 +16,10 @@ export default class Game {
     this.canvas = this.createCanvas();
     this.renderer = new Renderer(<CanvasRenderingContext2D>this.canvas.getContext('2d'));
     this._scene = this.renderer.scene;
+
+    Time._init();
+    Mouse._init();
+    Screen._init(this.canvas);
   }
 
   public get scene() {
@@ -28,10 +32,6 @@ export default class Game {
   }
 
   public start(): void {
-    Time._init();
-    Mouse._init();
-    Screen._init(this.canvas);
-
     this.renderer.start();
   }
 
