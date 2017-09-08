@@ -11,11 +11,23 @@ export default class Profiler {
     this._steps = [];
   }
 
+  public get duration(): number {
+    if (this.endTime) {
+      return this.endTime - this.startTime;
+    } else if (this.startTime) {
+      return now() - this.startTime;
+    } else {
+      return 0;
+    }
+  }
+
   public get steps(): number[] {
     return [...this._steps];
   }
 
   public start(): void {
+    this.endTime = 0;
+    this._steps = [];
     this.startTime = now();
   }
 
@@ -35,5 +47,25 @@ export default class Profiler {
     }
 
     return null;
+  }
+
+  public getStepDuration(index: number): number|null {
+    const step: number|null = this.getStep(index);
+
+    if (step !== null) {
+      return step - this.startTime;
+    }
+
+    return null;
+  }
+
+  public getStepDurations(): number[] {
+    const steps: number[] = [];
+
+    for (const step of this.steps) {
+      steps.push(step - this.startTime);
+    }
+
+    return steps;
   }
 }
