@@ -6,7 +6,8 @@ import {
   Rectangle,
   Circle,
   Shape,
-  Label
+  Label,
+  Image
 } from '../game-objects';
 
 export default class Renderer {
@@ -137,6 +138,12 @@ export default class Renderer {
         }
 
         continue;
+      }
+
+      if (gameObject instanceof Image) {
+        if (gameObject.ready) {
+          this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
+        }
       }
 
       if (gameObject.rotation) {
