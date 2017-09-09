@@ -45,4 +45,12 @@ export default class Game {
 
     return canvas;
   }
+
+  public update(update: Function): void {
+    this.scene.attachUpdate(update);
+  }
+
+  public globalUpdate(update: Function): void {
+    this.renderer.attachUpdate(update);
+  }
 }

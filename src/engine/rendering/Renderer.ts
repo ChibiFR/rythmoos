@@ -6,7 +6,8 @@ import {
   Rectangle,
   Circle,
   Shape,
-  Label
+  Label,
+  Image
 } from '../game-objects';
 
 export default class Renderer {
@@ -41,14 +42,37 @@ export default class Renderer {
       update();
     }
 
+    for (const update of this.scene.updates) {
+      update();
+    }
+
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     for (const gameObjectName in this.scene.getAll()) {
       const gameObject = <GameObject>this.scene.get(gameObjectName);
+
+      gameObject.update();
       
       if (!gameObject.visible) continue;
 
+      if (gameObject.hasRenderContextSettings()) {
+        this.context.save();
+        gameObject.renderContextSettings(this.context);
+      }
+      
+      if (gameObject.rotation) {
+        this.context.save();
+        this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
+        this.context.rotate(gameObject.rotation * Math.PI / 180);
+        this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
+      }
+
+      if (gameObject.scale !== 1) {
+        this.context.scale(gameObject.scale, gameObject.scale);
+      }
+
       if (gameObject instanceof Rectangle) {
+
         if (gameObject.fill) {
           this.context.fillStyle = gameObject.color;
           this.context.fillRect(
@@ -118,6 +142,24 @@ export default class Renderer {
         }
 
         continue;
+      }
+
+      if (gameObject instanceof Image) {
+        if (gameObject.ready) {
+          this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
+        }
+      }
+
+      if (gameObject.scale !== 1) {
+        this.context.scale(1, 1);
+      }
+
+      if (gameObject.rotation) {
+        this.context.restore();
+      }
+
+      if (gameObject.hasRenderContextSettings()) {
+        this.context.restore();
       }
     }
 

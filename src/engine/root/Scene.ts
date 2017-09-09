@@ -3,9 +3,15 @@ import { Collection } from '../utils';
 
 export default class Scene {
   private _gameObjects: Collection<GameObject>;
+  private _updates: Function[];
 
   constructor() {
     this._gameObjects = {};
+    this._updates = [];
+  }
+  
+  public get updates(): Function[] {
+    return [...this._updates];
   }
 
   public add(gameObject: GameObject): boolean {
@@ -40,5 +46,10 @@ export default class Scene {
 
   public clear(): void {
     this._gameObjects = {};
+  }
+
+
+  public attachUpdate(update: Function): void {
+    this._updates.push(update);
   }
 }
