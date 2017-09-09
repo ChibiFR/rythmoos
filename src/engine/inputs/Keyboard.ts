@@ -1,5 +1,5 @@
 import Key from './Key';
-import KeyCodes from './KeyCodes';
+import Keys from './Keys';
 import { Screen } from '../rendering';
 import { Collection } from '../utils';
 
@@ -9,14 +9,14 @@ export default abstract class Keyboard {
   public static _init(): void {
     this._keys = {};
     
-    for (const key in KeyCodes) {
-      this._keys[key] = new Key(<KeyCodes>key);
+    for (const key in Keys) {
+      this._keys[key] = new Key(<Keys>key);
     }
 
     Screen.on(['keydown'], (e: KeyboardEvent) => {
       e.preventDefault();
 
-      if (KeyCodes[<any>e.code] && this._keys[e.code].isUp()) {
+      if (Keys[<any>e.code] && this._keys[e.code].isUp()) {
         this._keys[e.code]._state._switch();
       }
     });
@@ -24,7 +24,7 @@ export default abstract class Keyboard {
     Screen.on(['keyup'], (e: KeyboardEvent) => {
       e.preventDefault();
 
-      if (KeyCodes[<any>e.code] && this._keys[e.code].isDown()) {
+      if (Keys[<any>e.code] && this._keys[e.code].isDown()) {
         this._keys[e.code]._state._switch();
       }
     });
@@ -34,19 +34,19 @@ export default abstract class Keyboard {
     });
   }
 
-  public static getKey(key: KeyCodes): Key {
+  public static getKey(key: Keys): Key {
     return this._keys[key];
   }
 
-  public static key(key: KeyCodes): Key {
+  public static key(key: Keys): Key {
     return this.getKey(key);
   }
 
-  public static isDown(key: KeyCodes): boolean {
+  public static isDown(key: Keys): boolean {
     return this._keys[key].isDown();
   }
 
-  public static isUp(key: KeyCodes): boolean {
+  public static isUp(key: Keys): boolean {
     return this._keys[key].isUp();
   }
 }

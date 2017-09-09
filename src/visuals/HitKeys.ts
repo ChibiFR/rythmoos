@@ -1,4 +1,4 @@
-import { Rectangle, Label, Scene, Font, Screen, Point, Keyboard, KeyCodes } from '../engine';
+import { Rectangle, Label, Scene, Font, Screen, Point, Keyboard, Keys } from '../engine';
 
 export default class HitKeys {
   public qElement: Rectangle;
@@ -44,7 +44,7 @@ export default class HitKeys {
   }
 
   public update(): void {
-    if (Keyboard.key(KeyCodes.KeyQ).isDown()) {
+    if (Keyboard.key(Keys.KeyQ).isDown()) {
       this.qElement.color = '#113311';
       this.qLabel.setFontColor('#FFFFFF');
     } else {
@@ -52,7 +52,7 @@ export default class HitKeys {
       this.qLabel.setFontColor('#000000');
     }
 
-    if (Keyboard.key(KeyCodes.KeyW).isDown()) {
+    if (Keyboard.key(Keys.KeyW).isDown()) {
       this.wElement.color = '#113311';
       this.wLabel.setFontColor('#FFFFFF');
     } else {

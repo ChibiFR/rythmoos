@@ -1,4 +1,4 @@
-import { Circle, Scene, Point, Screen, Keyboard, Mouse, KeyCodes, Collision } from '../engine';
+import { Circle, Scene, Point, Screen, Keyboard, Mouse, Keys, Collision } from '../engine';
 
 export default class HitCircle {
   public border: Circle;
@@ -26,12 +26,12 @@ export default class HitCircle {
 
   public update(): void {
     if (this.hit) {
-      if (Keyboard.key(KeyCodes.KeyQ).isUp() && Keyboard.key(KeyCodes.KeyW).isUp()) {
+      if (Keyboard.key(Keys.KeyQ).isUp() && Keyboard.key(Keys.KeyW).isUp()) {
         this.hit = false;
       }
     }
 
-    if (Keyboard.key(KeyCodes.KeyQ).isDown() || Keyboard.key(KeyCodes.KeyW).isDown()) {
+    if (Keyboard.key(Keys.KeyQ).isDown() || Keyboard.key(Keys.KeyW).isDown()) {
       if (!this.hit &&
         Collision.circleCollide(this.element, new Circle('', Mouse.cursor))
       ) {

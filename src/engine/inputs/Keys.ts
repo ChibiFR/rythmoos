@@ -1,4 +1,4 @@
-enum KeyCodes {
+enum Keys {
   Digit0 = 'Digit0',
   Digit1 = 'Digit1',
   Digit2 = 'Digit2',
@@ -108,4 +108,4 @@ enum KeyCodes {
   AltRight = 'AltRight'
 };
 
-export default KeyCodes;
+export default Keys;
