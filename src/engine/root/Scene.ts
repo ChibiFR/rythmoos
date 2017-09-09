@@ -1,8 +1,8 @@
-import { GameObject } from '../game-objects';
+import { GameObjectResolvable } from '../game-objects';
 import { Collection } from '../utils';
 
 export default class Scene {
-  private _gameObjects: Collection<GameObject>;
+  private _gameObjects: Collection<GameObjectResolvable>;
   private _updates: Function[];
 
   constructor() {
@@ -14,7 +14,7 @@ export default class Scene {
     return [...this._updates];
   }
 
-  public add(gameObject: GameObject): boolean {
+  public add(gameObject: GameObjectResolvable): boolean {
     if (this.contains(gameObject.name)) return false;
 
     this._gameObjects[gameObject.name] = gameObject;
@@ -30,13 +30,13 @@ export default class Scene {
     return true;
   }
   
-  public get(gameObjectName: string): GameObject|null {
+  public get(gameObjectName: string): GameObjectResolvable|null {
     if (!this.contains(gameObjectName)) return null;
 
     return this._gameObjects[gameObjectName];
   }
 
-  public getAll(): Collection<GameObject> {
+  public getAll(): Collection<GameObjectResolvable> {
     return this._gameObjects;
   }
 

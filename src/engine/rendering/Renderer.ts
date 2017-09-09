@@ -2,7 +2,9 @@ import { Time } from '../timing';
 import { Scene } from '../root';
 import {
   GameObject,
+  GameObjectResolvable,
   GameObjectTypes,
+  Group,
   Rectangle,
   Circle,
   Shape,
@@ -48,123 +50,135 @@ export default class Renderer {
 
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
-    for (const gameObjectName in this.scene.getAll()) {
-      const gameObject = <GameObject>this.scene.get(gameObjectName);
+    for (const gameObjectResolvableName in this.scene.getAll()) {
+      const gameObjectResolvable = <GameObjectResolvable>this.scene.get(gameObjectResolvableName);
 
-      gameObject.update();
-      
-      if (!gameObject.visible) continue;
+      if (gameObjectResolvable instanceof Group) {
+        for (const gameObjectName in this.scene.getAll()) {
+          const gameObject = <GameObject>gameObjectResolvable.get(gameObjectName);
 
-      if (gameObject.hasRenderContextSettings()) {
-        this.context.save();
-        gameObject.renderContextSettings(this.context);
-      }
-      
-      if (gameObject.rotation) {
-        this.context.save();
-        this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
-        this.context.rotate(gameObject.rotation * Math.PI / 180);
-        this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
-      }
-
-      if (gameObject.scale !== 1) {
-        this.context.scale(gameObject.scale, gameObject.scale);
-      }
-
-      if (gameObject instanceof Rectangle) {
-
-        if (gameObject.fill) {
-          this.context.fillStyle = gameObject.color;
-          this.context.fillRect(
-            gameObject.x,
-            gameObject.y,
-            gameObject.width,
-            gameObject.height
-          );
-        } else {
-          this.context.strokeStyle = gameObject.color;
-          this.context.strokeRect(
-            gameObject.x,
-            gameObject.y,
-            gameObject.width,
-            gameObject.height
-          );
+          this.renderGameObject(gameObject);
         }
-
-        continue;
-      }
-      
-      if (gameObject instanceof Circle) {
-        if (gameObject.size === 0) continue;
-
-        this.context.beginPath();
-        this.context.arc(gameObject.x, gameObject.y, gameObject.size / 2, 0, 2 * Math.PI);
-
-        if (gameObject.fill) {
-          this.context.fillStyle = gameObject.color;
-          this.context.fill();
-        } else {
-          this.context.strokeStyle = gameObject.color;
-          this.context.stroke();
-        }
-
-        continue;
-      }
-
-      if (gameObject instanceof Shape) {
-        this.context.beginPath();
-        this.context.moveTo(gameObject.x, gameObject.y);
-        
-        for (const pathPoint of gameObject.model.path) {
-          this.context.lineTo(pathPoint[0], pathPoint[1]);
-        }
-
-        if (gameObject.fill) {
-          this.context.fillStyle = gameObject.color;
-          this.context.fill();
-        } else {
-          this.context.strokeStyle = gameObject.color;
-          this.context.stroke();
-        }
-
-        continue;
-      }
-
-      if (gameObject instanceof Label) {
-        this.context.font = `${gameObject.font.fontSize}px ${gameObject.font.fontName}`;
-        
-        if (gameObject.fill) {
-          this.context.fillStyle = gameObject.font.color;
-          this.context.fillText(gameObject.text, gameObject.x, gameObject.y);
-        } else {
-          this.context.strokeStyle = gameObject.font.color;
-          this.context.strokeText(gameObject.text, gameObject.x, gameObject.y);
-        }
-
-        continue;
-      }
-
-      if (gameObject instanceof Image) {
-        if (gameObject.ready) {
-          this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
-        }
-      }
-
-      if (gameObject.scale !== 1) {
-        this.context.scale(1, 1);
-      }
-
-      if (gameObject.rotation) {
-        this.context.restore();
-      }
-
-      if (gameObject.hasRenderContextSettings()) {
-        this.context.restore();
+      } else {
+        this.renderGameObject(gameObjectResolvable);
       }
     }
 
     this.animationFrame = requestAnimationFrame((frame: number) => {
       this.render(frame);
     });
+  }
+
+  private renderGameObject(gameObject: GameObject): void {
+    gameObject.update();
+
+    if (!gameObject.visible) return;
+
+    if (gameObject.hasRenderContextSettings()) {
+      this.context.save();
+      gameObject.renderContextSettings(this.context);
+    }
+
+    if (gameObject.rotation) {
+      this.context.save();
+      this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
+      this.context.rotate(gameObject.rotation * Math.PI / 180);
+      this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
+    }
+
+    if (gameObject.scale !== 1) {
+      this.context.scale(gameObject.scale, gameObject.scale);
+    }
+
+    if (gameObject instanceof Rectangle) {
+
+      if (gameObject.fill) {
+        this.context.fillStyle = gameObject.color;
+        this.context.fillRect(
+          gameObject.x,
+          gameObject.y,
+          gameObject.width,
+          gameObject.height
+        );
+      } else {
+        this.context.strokeStyle = gameObject.color;
+        this.context.strokeRect(
+          gameObject.x,
+          gameObject.y,
+          gameObject.width,
+          gameObject.height
+        );
+      }
+
+      return;
+    }
+
+    if (gameObject instanceof Circle) {
+      if (gameObject.size === 0) return;
+
+      this.context.beginPath();
+      this.context.arc(gameObject.x, gameObject.y, gameObject.size / 2, 0, 2 * Math.PI);
+
+      if (gameObject.fill) {
+        this.context.fillStyle = gameObject.color;
+        this.context.fill();
+      } else {
+        this.context.strokeStyle = gameObject.color;
+        this.context.stroke();
+      }
+
+      return;
+    }
+
+    if (gameObject instanceof Shape) {
+      this.context.beginPath();
+      this.context.moveTo(gameObject.x, gameObject.y);
+
+      for (const pathPoint of gameObject.model.path) {
+        this.context.lineTo(pathPoint[0], pathPoint[1]);
+      }
+
+      if (gameObject.fill) {
+        this.context.fillStyle = gameObject.color;
+        this.context.fill();
+      } else {
+        this.context.strokeStyle = gameObject.color;
+        this.context.stroke();
+      }
+
+      return;
+    }
+
+    if (gameObject instanceof Label) {
+      this.context.font = `${gameObject.font.fontSize}px ${gameObject.font.fontName}`;
+
+      if (gameObject.fill) {
+        this.context.fillStyle = gameObject.font.color;
+        this.context.fillText(gameObject.text, gameObject.x, gameObject.y);
+      } else {
+        this.context.strokeStyle = gameObject.font.color;
+        this.context.strokeText(gameObject.text, gameObject.x, gameObject.y);
+      }
+
+      return;
+    }
+
+    if (gameObject instanceof Image) {
+      if (gameObject.ready) {
+        this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
+      }
+    }
+
+    if (gameObject.scale !== 1) {
+      this.context.scale(1, 1);
+    }
+
+    if (gameObject.rotation) {
+      this.context.restore();
+    }
+
+    if (gameObject.hasRenderContextSettings()) {
+      this.context.restore();
+    }
   }
 }
