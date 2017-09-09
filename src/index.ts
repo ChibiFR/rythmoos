@@ -1,4 +1,4 @@
-import { Game, Rectangle, Screen, Point, Mouse } from './engine';
+import { Game, Rectangle, Screen, Point, Circle, Mouse, Collision } from './engine';
 
 import FPSCounter from './visuals/FPSCounter';
 import Cursor from './visuals/Cursor';
@@ -28,11 +28,7 @@ Screen.onResize(() => {
 
 // Update all game objects
 g.renderer.attachUpdate(() => {
-  if (hitCircle.element.x - hitCircle.element.size / 2 < Mouse.cursorX &&
-    hitCircle.element.x + hitCircle.element.size / 2 > Mouse.cursorX &&
-    hitCircle.element.y - hitCircle.element.size / 2 < Mouse.cursorY &&
-    hitCircle.element.y + hitCircle.element.size / 2 > Mouse.cursorY
-  ) {
+  if (Collision.circleCollide(hitCircle.element, new Circle('', Mouse.cursor))) {
     hitCircle.element.color = '#1DBBFF';
   } else {
     hitCircle.element.color = '#0133DD';
