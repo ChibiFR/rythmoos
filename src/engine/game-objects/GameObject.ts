@@ -72,7 +72,7 @@ export default class GameObject {
   }
 
   public get update(): Function {
-    return this._update();
+    return this._update;
   }
 
   public set update(update: Function) {
