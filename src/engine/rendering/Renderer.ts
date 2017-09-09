@@ -41,10 +41,16 @@ export default class Renderer {
       update();
     }
 
+    for (const update of this.scene.updates) {
+      update();
+    }
+
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     for (const gameObjectName in this.scene.getAll()) {
       const gameObject = <GameObject>this.scene.get(gameObjectName);
+
+      gameObject.update();
       
       if (!gameObject.visible) continue;
 

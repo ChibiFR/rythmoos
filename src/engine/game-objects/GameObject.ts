@@ -6,6 +6,7 @@ export default class GameObject {
   public visible: boolean;
   protected _type: GameObjectTypes;
   protected _point: Point;
+  protected _update: Function;
 
   constructor(name: string, point?: Point, visible?: boolean) {
     this.name = name;
@@ -16,6 +17,8 @@ export default class GameObject {
     } else {
       this.visible = visible;
     }
+
+    this._update = () => {};
 
     this._type = GameObjectTypes.OTHER;
   }
@@ -42,6 +45,14 @@ export default class GameObject {
 
   public set y(y: number) {
     this._point.y = y;
+  }
+
+  public get update(): Function {
+    return this._update();
+  }
+
+  public set update(update: Function) {
+    this._update = update;
   }
 
   public setPoint(point: Point): void {
