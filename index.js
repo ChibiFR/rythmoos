@@ -8,4 +8,6 @@ app.get('/', (req, res) => {
   res.sendFile('public/index.html');
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('App available at http://localhost:3000');
+});

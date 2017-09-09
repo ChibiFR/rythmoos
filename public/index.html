@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <!-- <script src="rythmoos.js"></script> -->
-    <script src="../build/rythmoos.js"></script>
+    <script>
+      let script = document.createElement('script');
+      script.src = window.location.port == 3000 ? 'rythmoos.js' : '../build/rythmoos.js';
+      document.body.appendChild(script);
+    </script>
   </body>
 </html>

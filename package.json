@@ -9,7 +9,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server",
-    "start": "node index.js"
+    "start": "node index.js",
+    "noob": "npm install && npm run build && npm start"
   },
   "repository": {
     "type": "git",
