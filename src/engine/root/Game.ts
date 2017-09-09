@@ -1,4 +1,4 @@
-import { Mouse } from '../inputs';
+import { Mouse, Keyboard } from '../inputs';
 import { Screen, Renderer } from '../rendering';
 import { Time } from '../timing';
 import Scene from './Scene';
@@ -19,6 +19,7 @@ export default class Game {
 
     Time._init();
     Mouse._init();
+    Keyboard._init();
     Screen._init(this.canvas);
   }
 
