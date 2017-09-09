@@ -59,7 +59,15 @@ export default class Renderer {
         gameObject.renderContextSettings(this.context);
       }
       
+      if (gameObject.rotation) {
+        this.context.save();
+        this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
+        this.context.rotate(gameObject.rotation * Math.PI / 180);
+        this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
+      }
+
       if (gameObject instanceof Rectangle) {
+
         if (gameObject.fill) {
           this.context.fillStyle = gameObject.color;
           this.context.fillRect(
@@ -129,6 +137,10 @@ export default class Renderer {
         }
 
         continue;
+      }
+
+      if (gameObject.rotation) {
+        this.context.restore();
       }
 
       if (gameObject.hasRenderContextSettings()) {

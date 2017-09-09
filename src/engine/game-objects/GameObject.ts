@@ -6,6 +6,7 @@ export default class GameObject {
   public visible: boolean;
   protected _type: GameObjectTypes;
   protected _point: Point;
+  protected _rotation: number;
   protected _update: Function;
   protected _contextSettings: ((context: CanvasRenderingContext2D) => void)|null;
 
@@ -50,6 +51,14 @@ export default class GameObject {
     this._point.y = y;
   }
 
+  public get rotation(): number {
+    return this._rotation;
+  }
+
+  public set rotation(degrees: number) {
+    this._rotation = degrees;
+  }
+
   public get update(): Function {
     return this._update();
   }
@@ -72,5 +81,9 @@ export default class GameObject {
 
   public hasRenderContextSettings(): boolean {
     return this._contextSettings !== null ? true : false;
+  }
+
+  public rotate(degrees: number): void {
+    this._rotation = degrees;
   }
 }
