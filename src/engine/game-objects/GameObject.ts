@@ -25,7 +25,7 @@ export default class GameObject {
   }
 
   public get point(): Point {
-    return new Point(this._point.x, this._point.y);
+    return this._point;
   }
 
   public get x(): number {
@@ -33,7 +33,7 @@ export default class GameObject {
   }
   
   public set x(x: number) {
-    this._point.x = 4;
+    this._point.x = x;
   }
 
   public get y(): number {
