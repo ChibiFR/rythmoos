@@ -54,6 +54,11 @@ export default class Renderer {
       
       if (!gameObject.visible) continue;
 
+      if (gameObject.hasRenderContextSettings()) {
+        this.context.save();
+        gameObject.renderContextSettings(this.context);
+      }
+      
       if (gameObject instanceof Rectangle) {
         if (gameObject.fill) {
           this.context.fillStyle = gameObject.color;
@@ -124,6 +129,10 @@ export default class Renderer {
         }
 
         continue;
+      }
+
+      if (gameObject.hasRenderContextSettings()) {
+        this.context.restore();
       }
     }
 

@@ -7,6 +7,7 @@ export default class GameObject {
   protected _type: GameObjectTypes;
   protected _point: Point;
   protected _update: Function;
+  protected _contextSettings: ((context: CanvasRenderingContext2D) => void)|null;
 
   constructor(name: string, point?: Point, visible?: boolean) {
     this.name = name;
@@ -19,6 +20,8 @@ export default class GameObject {
     }
 
     this._update = () => {};
+
+    this._contextSettings = null;
 
     this._type = GameObjectTypes.OTHER;
   }
@@ -54,8 +57,20 @@ export default class GameObject {
   public set update(update: Function) {
     this._update = update;
   }
+  
+  public get renderContextSettings(): (context: CanvasRenderingContext2D) => void {
+    return <(context: CanvasRenderingContext2D) => void>this._contextSettings;
+  }
+
+  public set renderContextSettings(contextSettings: (context: CanvasRenderingContext2D) => void) {
+    this._contextSettings = contextSettings;
+  }
 
   public setPoint(point: Point): void {
     this._point = point;
+  }
+
+  public hasRenderContextSettings(): boolean {
+    return this._contextSettings !== null ? true : false;
   }
 }
