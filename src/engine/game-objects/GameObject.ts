@@ -7,6 +7,7 @@ export default class GameObject {
   protected _type: GameObjectTypes;
   protected _point: Point;
   protected _rotation: number;
+  protected _scale: number;
   protected _update: Function;
   protected _contextSettings: ((context: CanvasRenderingContext2D) => void)|null;
 
@@ -19,6 +20,9 @@ export default class GameObject {
     } else {
       this.visible = visible;
     }
+
+    this._rotation = 0;
+    this._scale = 1;
 
     this._update = () => {};
 
@@ -59,6 +63,14 @@ export default class GameObject {
     this._rotation = degrees;
   }
 
+  public get scale(): number {
+    return this._scale;
+  }
+
+  public set scale(scale: number) {
+    this._scale = scale;
+  }
+
   public get update(): Function {
     return this._update();
   }
@@ -85,5 +97,9 @@ export default class GameObject {
 
   public rotate(degrees: number): void {
     this._rotation = degrees;
+  }
+
+  public setScale(scale: number): void {
+    this._scale = scale;
   }
 }

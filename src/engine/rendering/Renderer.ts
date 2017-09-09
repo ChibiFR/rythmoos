@@ -67,6 +67,10 @@ export default class Renderer {
         this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
       }
 
+      if (gameObject.scale !== 1) {
+        this.context.scale(gameObject.scale, gameObject.scale);
+      }
+
       if (gameObject instanceof Rectangle) {
 
         if (gameObject.fill) {
@@ -144,6 +148,10 @@ export default class Renderer {
         if (gameObject.ready) {
           this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
         }
+      }
+
+      if (gameObject.scale !== 1) {
+        this.context.scale(1, 1);
       }
 
       if (gameObject.rotation) {
