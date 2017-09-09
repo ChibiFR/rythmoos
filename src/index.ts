@@ -1,64 +1,47 @@
-import { Game, Mouse, Screen, Time, Rectangle, Circle, Label, Point, Font, Keyboard, KeyCodes } from './engine';
+import { Game, Rectangle, Screen, Point, Mouse } from './engine';
+
+import FPSCounter from './visuals/FPSCounter';
+import Cursor from './visuals/Cursor';
+import HitKeys from './visuals/HitKeys';
+import HitCircle from './visuals/HitCircle';
 
 const g = new Game();
 
-let keyPressedText = '';
-
+// Background
 const bg = new Rectangle('background', new Point(0, 0), true);
-const fps = new Label('fps counter', new Point(15, 15), true);
-const cursor = new Circle('cursor', Mouse.cursor, true);
+bg.color = '#000000';
+bg.width = Screen.width;
+bg.height = Screen.height;
+g.scene.add(bg);
 
+// Game elements
+const hitCircle = new HitCircle(g.scene);
+const hitKeys = new HitKeys(g.scene);
+const cursor = new Cursor(g.scene);
+const fpscounter = new FPSCounter(g.scene);
+
+// Update bg size on resize
 Screen.onResize(() => {
   bg.width = Screen.width;
   bg.height = Screen.height;
 });
 
-bg.color = '#000000';
-bg.fill = true;
-bg.width = Screen.width;
-bg.height = Screen.height;
-
-fps.fill = true;
-fps.font = new Font('Arial', 14, '#FFFFFF');
-fps.text = `FPS: ${Time.fps}`;
-
-cursor.fill = true;
-cursor.size = 20;
-cursor.color = '#FF0000';
-
-g.scene.add(bg);
-g.scene.add(fps);
-g.scene.add(cursor);
-
+// Update all game objects
 g.renderer.attachUpdate(() => {
-  fps.text = `FPS: ${Time.fps}`;
-  cursor.setPoint(Mouse.cursor);
-
-  if (Mouse.buttonDown) {
-    cursor.color = '#0000FF';
+  if (hitCircle.element.x - hitCircle.element.size / 2 < Mouse.cursorX &&
+    hitCircle.element.x + hitCircle.element.size / 2 > Mouse.cursorX &&
+    hitCircle.element.y - hitCircle.element.size / 2 < Mouse.cursorY &&
+    hitCircle.element.y + hitCircle.element.size / 2 > Mouse.cursorY
+  ) {
+    hitCircle.element.color = '#1DBBFF';
   } else {
-    cursor.color = '#FF0000';
+    hitCircle.element.color = '#0133DD';
   }
 
-  if (Keyboard.getKey(KeyCodes.ArrowDown).isDown() ||
-      Keyboard.getKey(KeyCodes.KeyS).isDown()) {
-    fps.y += 0.2 * Time.deltaTime;
-  }
-
-  if (Keyboard.getKey(KeyCodes.ArrowLeft).isDown() ||
-      Keyboard.getKey(KeyCodes.KeyA).isDown()) {
-    fps.x -= 0.2 * Time.deltaTime;
-  }
-
-  if (Keyboard.getKey(KeyCodes.ArrowRight).isDown() ||
-      Keyboard.getKey(KeyCodes.KeyD).isDown()) {
-    fps.x += 0.2 * Time.deltaTime;
-  }
-
-  if (Keyboard.getKey(KeyCodes.ArrowUp).isDown() ||
-      Keyboard.getKey(KeyCodes.KeyW).isDown()) {
-    fps.y -= 0.2 * Time.deltaTime;
-  }
+  fpscounter.update();
+  hitCircle.update();
+  cursor.update();
+  hitKeys.update();
 });
 
 g.start();
