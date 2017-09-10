@@ -60,7 +60,9 @@ export default class Renderer {
         for (const gameObjectName in this.scene.getAll()) {
           const gameObject = <GameObject>gameObjectResolvable.get(gameObjectName);
 
+          this.setRenderContext(gameObject);
           this.renderGameObject(gameObject);
+          this.restoreRenderContext(gameObject);
         }
       } else {
         this.setRenderContext(gameObjectResolvable);
