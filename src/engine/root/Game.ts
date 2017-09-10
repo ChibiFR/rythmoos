@@ -1,5 +1,6 @@
 import { Mouse, Keyboard } from '../inputs';
 import { Screen, Renderer } from '../rendering';
+import { TextMeasure } from '../graphics';
 import { Time } from '../timing';
 import Scene from './Scene';
 
@@ -20,6 +21,7 @@ export default class Game {
     Time._init();
     Mouse._init();
     Keyboard._init();
+    TextMeasure._init();
     Screen._init(this.canvas);
   }
 

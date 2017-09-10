@@ -1,5 +1,7 @@
+import { Point } from '../graphics';
 import { Time } from '../timing';
 import { Scene } from '../root';
+import { RotationCenters } from '../physics';
 import {
   GameObject,
   GameObjectResolvable,
@@ -11,6 +13,7 @@ import {
   Label,
   Image
 } from '../game-objects';
+import Screen from './Screen';
 
 export default class Renderer {
   public context: CanvasRenderingContext2D;
@@ -60,7 +63,9 @@ export default class Renderer {
           this.renderGameObject(gameObject);
         }
       } else {
+        this.setRenderContext(gameObjectResolvable);
         this.renderGameObject(gameObjectResolvable);
+        this.restoreRenderContext(gameObjectResolvable);
       }
     }
 
@@ -73,22 +78,6 @@ export default class Renderer {
     gameObject.update();
 
     if (!gameObject.visible) return;
-
-    if (gameObject.hasRenderContextSettings()) {
-      this.context.save();
-      gameObject.renderContextSettings(this.context);
-    }
-
-    if (gameObject.rotation) {
-      this.context.save();
-      this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
-      this.context.rotate(gameObject.rotation * Math.PI / 180);
-      this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
-    }
-
-    if (gameObject.scale !== 1) {
-      this.context.scale(gameObject.scale, gameObject.scale);
-    }
 
     if (gameObject instanceof Rectangle) {
 
@@ -168,7 +157,39 @@ export default class Renderer {
         this.context.drawImage(gameObject.image, gameObject.x, gameObject.y);
       }
     }
+  }
 
+  private setRenderContext(gameObject: GameObject): void {
+    if (gameObject.hasRenderContextSettings()) {
+      this.context.save();
+      gameObject.renderContextSettings(this.context);
+    }
+
+    if (gameObject.rotation) {
+      let rotationCenter: Point;
+
+      switch (gameObject.rotationCenter) {
+        case RotationCenters.WORLD:
+          rotationCenter = Screen.center;
+          break;
+        case RotationCenters.SELF:
+        default:
+          rotationCenter = gameObject.center;
+          break
+      }
+
+      this.context.save();
+      this.context.translate(rotationCenter.x, rotationCenter.y);
+      this.context.rotate(gameObject.rotation * Math.PI / 180);
+      this.context.translate(-rotationCenter.x, -rotationCenter.y);
+    }
+
+    if (gameObject.scale !== 1) {
+      this.context.scale(gameObject.scale, gameObject.scale);
+    }
+  }
+
+  private restoreRenderContext(gameObject: GameObject): void {
     if (gameObject.scale !== 1) {
       this.context.scale(1, 1);
     }

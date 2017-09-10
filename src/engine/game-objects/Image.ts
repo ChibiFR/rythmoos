@@ -41,4 +41,23 @@ export default class Image extends GameObject {
   public setURL(URL: string): void {
     this.URL = URL;
   }
+
+  public get center(): Point {
+    let centerX: number;
+    let centerY: number;
+
+    if (this.image.width === 0) {
+      centerX = this.x;
+    } else {
+      centerX = this.x + this.image.width / 2;
+    }
+
+    if (this.image.height === 0) {
+      centerY = this.y;
+    } else {
+      centerY = this.y + this.image.height / 2;
+    }
+
+    return new Point(centerX, centerY);
+  }
 }

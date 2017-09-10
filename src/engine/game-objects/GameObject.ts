@@ -1,4 +1,5 @@
 import { Point } from '../graphics';
+import { RotationCenters } from '../physics';
 import GameObjectTypes from './GameObjectTypes';
 
 export default class GameObject {
@@ -7,6 +8,7 @@ export default class GameObject {
   protected _type: GameObjectTypes;
   protected _point: Point;
   protected _rotation: number;
+  protected _rotationCenter: RotationCenters;
   protected _scale: number;
   protected _update: Function;
   protected _contextSettings: ((context: CanvasRenderingContext2D) => void)|null;
@@ -22,6 +24,7 @@ export default class GameObject {
     }
 
     this._rotation = 0;
+    this._rotationCenter = RotationCenters.SELF;
     this._scale = 1;
 
     this._update = () => {};
@@ -55,12 +58,24 @@ export default class GameObject {
     this._point.y = y;
   }
 
+  public get center(): Point {
+    return new Point(this._point.x, this._point.y);
+  }
+
   public get rotation(): number {
     return this._rotation;
   }
 
   public set rotation(degrees: number) {
     this._rotation = degrees;
+  }
+
+  public get rotationCenter(): RotationCenters {
+    return this._rotationCenter;
+  }
+
+  public set rotationCenter(rotationCenter: RotationCenters) {
+    this._rotationCenter = rotationCenter;
   }
 
   public get scale(): number {
@@ -95,8 +110,9 @@ export default class GameObject {
     return this._contextSettings !== null ? true : false;
   }
 
-  public rotate(degrees: number): void {
+  public rotate(degrees: number, center?: RotationCenters): void {
     this._rotation = degrees;
+    this.rotationCenter = center !== undefined ? center : RotationCenters.SELF;
   }
 
   public setScale(scale: number): void {

@@ -13,4 +13,23 @@ export default class Rectangle extends GameObject {
 
     this._type = GameObjectTypes.RECTANGLE;
   }
+
+  public get center(): Point {
+    let centerX: number;
+    let centerY: number;
+
+    if (this.width === 0) {
+      centerX = this.x;
+    } else {
+      centerX = this.x + this.width / 2;
+    }
+
+    if (this.height === 0) {
+      centerY = this.y;
+    } else {
+      centerY = this.y + this.height / 2;
+    }
+
+    return new Point(centerX, centerY);
+  }
 }

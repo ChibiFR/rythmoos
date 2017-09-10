@@ -1,4 +1,4 @@
-import { Rectangle, Label, Scene, Font, Screen, Point, Keyboard, Keys } from '../engine';
+import { Rectangle, Label, Scene, Font, Screen, Point, Keyboard, Keys, TextMeasure } from '../engine';
 
 export default class HitKeys {
   public qElement: Rectangle;
@@ -58,6 +58,14 @@ export default class HitKeys {
     } else {
       this.wElement.color = '#CCDDCC';
       this.wLabel.setFontColor('#000000');
+    }
+
+    this.qElement.rotation += 1;
+    this.qLabel.rotation += 1;
+
+    if (this.qElement.rotation === 360) {
+      this.qElement.rotation = 0;
+      this.qLabel.rotation = 0;
     }
   }
 }
