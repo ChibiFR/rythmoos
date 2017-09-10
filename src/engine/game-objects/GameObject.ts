@@ -106,10 +106,6 @@ export default class GameObject {
     this._point = point;
   }
 
-  public hasRenderContextSettings(): boolean {
-    return this._contextSettings !== null ? true : false;
-  }
-
   public rotate(degrees: number, center?: RotationCenters): void {
     this._rotation = degrees;
     this.rotationCenter = center !== undefined ? center : RotationCenters.SELF;

@@ -162,7 +162,7 @@ export default class Renderer {
   }
 
   private setRenderContext(gameObject: GameObject): void {
-    if (gameObject.hasRenderContextSettings()) {
+    if (gameObject.renderContextSettings !== null) {
       this.context.save();
       gameObject.renderContextSettings(this.context);
     }
@@ -200,7 +200,7 @@ export default class Renderer {
       this.context.restore();
     }
 
-    if (gameObject.hasRenderContextSettings()) {
+    if (gameObject.renderContextSettings !== null) {
       this.context.restore();
     }
   }
