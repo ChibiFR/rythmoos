@@ -94,11 +94,11 @@ export default class GameObject {
     this._update = update;
   }
   
-  public get renderContextSettings(): Function {
+  public get renderContextSettings(): Function|null {
     return this._contextSettings;
   }
 
-  public set renderContextSettings(contextSettings: Function) {
+  public set renderContextSettings(contextSettings: Function|null) {
     this._contextSettings = contextSettings;
   }
 
