@@ -11,7 +11,7 @@ export default class GameObject {
   protected _rotationCenter: RotationCenters;
   protected _scale: number;
   protected _update: Function;
-  protected _contextSettings: ((context: CanvasRenderingContext2D) => void)|null;
+  protected _contextSettings: Function|null;
 
   constructor(name: string, point?: Point, visible?: boolean) {
     this.name = name;
@@ -94,11 +94,11 @@ export default class GameObject {
     this._update = update;
   }
   
-  public get renderContextSettings(): (context: CanvasRenderingContext2D) => void {
-    return <(context: CanvasRenderingContext2D) => void>this._contextSettings;
+  public get renderContextSettings(): Function|null {
+    return this._contextSettings;
   }
 
-  public set renderContextSettings(contextSettings: (context: CanvasRenderingContext2D) => void) {
+  public set renderContextSettings(contextSettings: Function|null) {
     this._contextSettings = contextSettings;
   }
 

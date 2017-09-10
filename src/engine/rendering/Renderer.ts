@@ -57,7 +57,7 @@ export default class Renderer {
       const gameObjectResolvable = <GameObjectResolvable>this.scene.get(gameObjectResolvableName);
 
       if (gameObjectResolvable instanceof Group) {
-        for (const gameObjectName in this.scene.getAll()) {
+        for (const gameObjectName in gameObjectResolvable.getAll()) {
           const gameObject = <GameObject>gameObjectResolvable.get(gameObjectName);
 
           this.setRenderContext(gameObject);

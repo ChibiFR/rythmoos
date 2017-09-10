@@ -30,8 +30,8 @@ export default class Game {
   }
 
   public setScene(scene: Scene): void {
-    this.renderer.scene = scene;
     this._scene = scene;
+    this.renderer.scene = this._scene;
   }
 
   public start(): void {
